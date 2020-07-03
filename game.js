@@ -6,7 +6,8 @@ const gameBoard = (() => {
   };
 })();
 
-function player(name, char, arr) {
+
+function player(name, arr) {
   const chances = [
     [0, 4, 8],
     [1, 4, 7],
@@ -17,32 +18,49 @@ function player(name, char, arr) {
     [3, 4, 5],
     [6, 7, 8],
   ];
-  const winner = () => {
+  const winner = (arr) => {
     return chances.some((chance) => chance.every((num) => arr.includes(num)));
   };
-  //x=[];o=[];
-  //player1=player("sam",'X',x);
-  //player2=player('jask','O',o);
-  ele.textContent=player.char;
-//if(Char=="X") playe1.x.push(indexOf('X)
-// )
-// char='O'
-//if(char==='o') player2.arr.push(grid.indexof())
-//char='x
 
   return {
     name,
-    char,
     arr,
     winner,
   };
 }
 
+const player1 = player('player1', [])
+const player2 = player('player2', [])
+
+
 const displayController = (() => {
   const boardGrid = document.querySelector(".board-grid");
   const boardItems = document.querySelectorAll(".item");
   const render = () => {
-    let i = 0;
+    let turn = 1;
+    for(let i = 0; i < boardItems.length; i++) {
+      boardItems[i].addEventListener('click', () => {
+        if(boardItems[i].innerHTML != ''){
+          alert('invalid move!')
+        }else{
+          if(turn == 1){
+            boardItems[i].innerHTML = 'X';
+            player1.arr.push(i);
+            turn = 2;
+            if(player1.winner(player1.arr)){
+              boardGrid.innerHTML = 'PLAYER1 WINS';
+            }
+          } else {
+            boardItems[i].innerHTML = 'O';
+            player2.arr.push(i);
+            turn = 1;
+            if(player2.winner(player2.arr)){
+              boardGrid.innerHTML = 'PLAYER2 WINS';
+            }
+          }
+        }
+      })
+    }
   };
   return { render };
 })();
