@@ -18,13 +18,33 @@
     <div class="text-center font-bold text-6xl text-blue-900">
       Pet Tac Toe <i class="fas fa-cat"></i> <i class="fas fa-dog"></i>
     </div>
-    <div class="create-input">
-      <label for="player1">Player1 Name </label>
-      <input type="text" id="player1" name="player1" />
-      <label for="player2">Player2 Name</label>
-      <input type="text" id="player2" name="player2" />
+    <div class="create-input my-16 py-4 flex flex-col items-center">
+      <div>
+        <label for="player1">Player1 Name </label>
+        <input
+          type="text"
+          id="player1"
+          name="player1"
+          class="p-2 m-4 text-xl rounded-lg border focus:outline-none focus:border-blue-800"
+        />
+      </div>
+
+      <div>
+        <label for="player2">Player2 Name</label
+        ><input
+          type="text"
+          id="player2"
+          name="player2"
+          class="p-2 m-4 text-xl rounded-lg border focus:outline-none focus:border-blue-800"
+        />
+      </div>
+
       <div class="error-form"></div>
-      <button class="start-button">Start</button>
+      <button
+        class="start-button py-2 px-8 my-2 bg-blue-800 focus:outline-none hover:bg-blue-600 text-white rounded-lg shadow-lg"
+      >
+        Start
+      </button>
     </div>
     <div class="container-1">
       <div class="options rounded flex flex-col justify-around p-4">
@@ -37,19 +57,22 @@
       </div>
     </div>
     <div class="board-container">
-      <div class="flex">
-        <div class="text-3xl text-red-400">       
-          <span class="player1-name"></span> - 
+      <div class="flex flex-col items-center py-2 my-6 px-4">
+        <div class="text-3xl text-red-400">
+          <span class="player1-name"></span> -
           <i class="fas fa-dog"></i>
         </div>
-      </div>
-      <div class="flex">
         <div class="text-3xl text-black">
-          <span class="player2-name"></span> - 
+          <span class="player2-name"></span> -
           <i class="fas fa-cat"></i>
         </div>
+        <button
+          class="restart-button py-2 px-8 my-2 bg-blue-800 focus:outline-none hover:bg-blue-600 text-white rounded-lg shadow-lg"
+        >
+          Restart
+        </button>
       </div>
-      <button class="restart-button">Restart</button>
+
       <div class="board-grid">
         <div class="item"></div>
         <div class="item"></div>
