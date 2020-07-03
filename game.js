@@ -1,11 +1,3 @@
-const gameBoard = (() => {
-  const gameboard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-
-  return {
-    gameboard,
-  };
-})();
-
 function player(name, arr) {
   const chances = [
     [0, 4, 8],
@@ -28,23 +20,37 @@ function player(name, arr) {
   };
 }
 
-const container = document.querySelector(".container-1");
-const winnerup = document.querySelector(".winner");
-const button = document.querySelector(".button");
-const player1 = player("player1", []);
-const player2 = player("player2", []);
-
+const startGame = () => {
+  const startButton = document.querySelector(".start-button");
+  const playerOne = document.getElementById("player1");
+  const playerTwo = document.getElementById("player2");
+  const errorForm = document.querySelector(".error-form");
+  startButton.addEventListener("click", () => {
+    if (playerOne.value !== "" && playerTwo.value !== "") {
+      const player1 = player(playerOne.value, []);
+      const player2 = player(playerTwo.value, []);
+      console.log("Volla");
+      displayController.render(player1, player2);
+    } else {
+      errorForm.textContent =
+        "Please Enter the name of both player in order to start the game";
+    }
+  });
+};
 const displayController = (() => {
   const boardGrid = document.querySelector(".board-grid");
   const boardItems = document.querySelectorAll(".item");
   const newWindow = () => {
     window.location.reload();
   };
+  const container = document.querySelector(".container-1");
+  const winnerup = document.querySelector(".winner");
+  const button = document.querySelector(".button");
 
   button.addEventListener("click", function () {
     newWindow();
   });
-  const render = () => {
+  const render = (player1, player2) => {
     let turn = 1;
     for (let i = 0; i < boardItems.length; i++) {
       boardItems[i].addEventListener("click", () => {
@@ -63,7 +69,7 @@ const displayController = (() => {
             turn += 1;
             if (player1.winner(player1.arr)) {
               container.classList.add("block");
-              winnerup.innerHTML = "Player 1 Wins";
+              winnerup.innerHTML = `Congratulations ${player1.name} Wins`;
             }
           } else {
             boardItems[i].innerHTML =
@@ -72,7 +78,7 @@ const displayController = (() => {
             turn += 1;
             if (player2.winner(player2.arr)) {
               container.classList.add("block");
-              winnerup.innerHTML = "Player 2 Wins";
+              winnerup.innerHTML = `Congratulations ${player2.name} Wins`;
             }
           }
         }
@@ -83,8 +89,4 @@ const displayController = (() => {
   return { render };
 })();
 
-const user = (name) => {
-  return { name };
-};
-
-displayController.render();
+startGame();
