@@ -22,15 +22,21 @@ function player(name, arr) {
 
 const startGame = () => {
   const startButton = document.querySelector(".start-button");
+  const createInput = document.querySelector(".create-input");
   const playerOne = document.getElementById("player1");
   const playerTwo = document.getElementById("player2");
   const errorForm = document.querySelector(".error-form");
+  
+  const start = () => {
+    const player1 = player(playerOne.value, []);
+    const player2 = player(playerTwo.value, []);
+    console.log("Volla");
+    createInput.classList.add('none');
+    displayController.render(player1, player2);
+  }
   startButton.addEventListener("click", () => {
     if (playerOne.value !== "" && playerTwo.value !== "") {
-      const player1 = player(playerOne.value, []);
-      const player2 = player(playerTwo.value, []);
-      console.log("Volla");
-      displayController.render(player1, player2);
+      start();
     } else {
       errorForm.textContent =
         "Please Enter the name of both player in order to start the game";
@@ -38,7 +44,7 @@ const startGame = () => {
   });
 };
 const displayController = (() => {
-  const boardGrid = document.querySelector(".board-grid");
+  const boardContainer = document.querySelector(".board-container");
   const boardItems = document.querySelectorAll(".item");
   const newWindow = () => {
     window.location.reload();
@@ -46,22 +52,42 @@ const displayController = (() => {
   const container = document.querySelector(".container-1");
   const winnerup = document.querySelector(".winner");
   const button = document.querySelector(".button");
+  const playerOneName = document.querySelector(".player1-name");
+  const playerTwoName = document.querySelector(".player2-name");
+  const restartButton = document.querySelector(".restart-button");
 
-  button.addEventListener("click", function () {
-    newWindow();
-  });
+  let turn = 1;
+
+  const restart = (player1, player2) => {
+    const boardItems = document.querySelectorAll(".item");
+    for(item of boardItems) {
+      item.innerHTML = '';
+    }
+    player1.arr = []
+    player2.arr = []
+    turn = 1;
+  }
+
   const render = (player1, player2) => {
-    let turn = 1;
+    boardContainer.classList.add('block');
+    playerOneName.textContent = player1.name;
+    playerTwoName.textContent = player2.name;
+
+    restartButton.addEventListener("click", () => restart(player1, player2, turn));
+    button.addEventListener("click", () => {
+      restart(player1, player2, turn);
+      container.classList.remove('block');
+    });
+
     for (let i = 0; i < boardItems.length; i++) {
       boardItems[i].addEventListener("click", () => {
-        if (turn === 9) {
-          container.classList.add("block");
-          winnerup.innerHTML = "NoBody Wins";
-        }
-
         if (boardItems[i].innerHTML != "") {
           alert("invalid move!");
         } else {
+          if (turn === 9) {
+            container.classList.add("block");
+            winnerup.innerHTML = "NoBody Wins";
+          }
           if (turn % 2 !== 0) {
             boardItems[i].innerHTML =
               '<div class="text-red-500"><i class="fas fa-dog"></i></div>';
