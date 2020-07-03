@@ -6,7 +6,6 @@ const gameBoard = (() => {
   };
 })();
 
-
 function player(name, arr) {
   const chances = [
     [0, 4, 8],
@@ -29,37 +28,56 @@ function player(name, arr) {
   };
 }
 
-const player1 = player('player1', [])
-const player2 = player('player2', [])
-
+const container = document.querySelector(".container-1");
+const winnerup = document.querySelector(".winner");
+const button = document.querySelector(".button");
+const player1 = player("player1", []);
+const player2 = player("player2", []);
 
 const displayController = (() => {
   const boardGrid = document.querySelector(".board-grid");
   const boardItems = document.querySelectorAll(".item");
+  const newWindow = () => {
+    window.location.reload();
+  };
+
+  button.addEventListener("click", function () {
+    newWindow();
+  });
   const render = () => {
     let turn = 1;
-    for(let i = 0; i < boardItems.length; i++) {
-      boardItems[i].addEventListener('click', () => {
-        if(boardItems[i].innerHTML != ''){
-          alert('invalid move!')
-        }else{
-          if(turn == 1){
-            boardItems[i].innerHTML = 'X';
+    for (let i = 0; i < boardItems.length; i++) {
+      boardItems[i].addEventListener("click", () => {
+        if (turn === 9) {
+          container.classList.add("block");
+          winnerup.innerHTML = "NoBody Wins";
+        }
+
+        if (boardItems[i].innerHTML != "") {
+          alert("invalid move!");
+        } else {
+          if (turn % 2 !== 0) {
+            boardItems[i].innerHTML =
+              '<div class="text-red-500"><i class="fas fa-dog"></i></div>';
             player1.arr.push(i);
-            turn = 2;
-            if(player1.winner(player1.arr)){
-              boardGrid.innerHTML = 'PLAYER1 WINS';
+            turn += 1;
+            if (player1.winner(player1.arr)) {
+              container.classList.add("block");
+              winnerup.innerHTML = "Player 1 Wins";
             }
           } else {
-            boardItems[i].innerHTML = 'O';
+            boardItems[i].innerHTML =
+              '<div class="text-white"><i class="fas fa-cat"></i></div>';
             player2.arr.push(i);
-            turn = 1;
-            if(player2.winner(player2.arr)){
-              boardGrid.innerHTML = 'PLAYER2 WINS';
+            turn += 1;
+            if (player2.winner(player2.arr)) {
+              container.classList.add("block");
+              winnerup.innerHTML = "Player 2 Wins";
             }
           }
         }
-      })
+        console.log(turn);
+      });
     }
   };
   return { render };
