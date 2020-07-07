@@ -1,20 +1,3 @@
-/* eslint-disable */
-
-const winnerup = document.querySelector('.winner');
-const startButton = document.querySelector('.start-button');
-const createInput = document.querySelector('.create-input');
-const playerOne = document.getElementById('player1');
-const playerTwo = document.getElementById('player2');
-const errorForm = document.querySelector('.error-form');
-const boardContainer = document.querySelector('.board-container');
-const boardItems = document.querySelectorAll('.item');
-
-const container = document.querySelector('.container-1');
-
-const button = document.querySelector('.button');
-const playerOneName = document.querySelector('.player1-name');
-const playerTwoName = document.querySelector('.player2-name');
-const restartButton = document.querySelector('.restart-button');
 const gameBoard = (() => {
   const board = new Array(9).fill('');
   const chances = [
@@ -29,23 +12,23 @@ const gameBoard = (() => {
   ];
 
   const checkWinner = () => {
-    for (let i = 0; i < chances.length; i++) {
+    for (let i = 0; i < chances.length; i += 1) {
       if (
-        board[chances[i][0]] === 'X' &&
-        board[chances[i][1]] === 'X' &&
-        board[chances[i][2]] === 'X'
+        board[chances[i][0]] === 'X'
+        && board[chances[i][1]] === 'X'
+        && board[chances[i][2]] === 'X'
       ) {
         return 1;
-      } else if (
-        board[chances[i][0]] === 'O' &&
-        board[chances[i][1]] === 'O' &&
-        board[chances[i][2]] === 'O'
+      }
+      if (
+        board[chances[i][0]] === 'O'
+        && board[chances[i][1]] === 'O'
+        && board[chances[i][2]] === 'O'
       ) {
         return 2;
-      } else {
-        return 0;
       }
     }
+    return 0;
   };
 
   let turn = 0;
@@ -57,26 +40,59 @@ const gameBoard = (() => {
   function getTurn() {
     return turn;
   }
-  return { board, addTurn, getTurn, checkWinner };
+  const reset = () => {
+    turn = 0;
+  };
+  return {
+    board,
+    addTurn,
+    getTurn,
+    checkWinner,
+    reset,
+  };
 })();
 
 const displayController = (gameBoard) => {
+  const winnerup = document.querySelector('.winner');
+  const startButton = document.querySelector('.start-button');
+  const createInput = document.querySelector('.create-input');
+  const playerOne = document.getElementById('player1');
+  const playerTwo = document.getElementById('player2');
+  const errorForm = document.querySelector('.error-form');
+  const boardContainer = document.querySelector('.board-container');
+
+  const container = document.querySelector('.container-1');
+
+  const button = document.querySelector('.button');
+  const playerOneName = document.querySelector('.player1-name');
+  const playerTwoName = document.querySelector('.player2-name');
+  const restartButton = document.querySelector('.restart-button');
   const boardItems = document.querySelectorAll('.item');
   const render = () => {
-    for (let i = 0; i < boardItems.length; i++) {
+    for (let i = 0; i < boardItems.length; i += 1) {
       if (gameBoard.board[i] !== '') {
-        boardItems[i].innerHTML =
-          gameBoard.board[i] == 'X'
-            ? '<div class="text-red-500"><i class="fas fa-dog"></i></div>'
-            : '<div class="text-white"><i class="fas fa-cat"></i></div>';
+        boardItems[i].innerHTML = gameBoard.board[i] === 'X'
+          ? '<div class="text-red-500"><i class="fas fa-dog"></i></div>'
+          : '<div class="text-white"><i class="fas fa-cat"></i></div>';
       }
     }
   };
+  const showName = () => {
+    playerOneName.textContent = playerOne.value;
+    playerTwoName.textContent = playerTwo.value;
+  };
+  const restart = () => {
+    for (let i = 0; i < boardItems.length; i += 1) {
+      boardItems[i].innerHTML = '';
+      gameBoard.board[i] = '';
+    }
+
+    gameBoard.reset();
+  };
 
   const startListeners = () => {
-    let c = [];
-    for (let i = 0; i < boardItems.length; i++) {
-      boardItems[i].addEventListener('click', function () {
+    for (let i = 0; i < boardItems.length; i += 1) {
+      boardItems[i].addEventListener('click', () => {
         if (gameBoard.board[i] === '') {
           if (gameBoard.getTurn() % 2 === 0) {
             gameBoard.board[i] = 'X';
@@ -86,34 +102,40 @@ const displayController = (gameBoard) => {
           gameBoard.addTurn();
 
           if (gameBoard.checkWinner() === 1) {
-            winnerup.innerHTML = `Congratulations player1.name Wins`;
+            container.classList.add('block');
+            winnerup.innerHTML = `Congratulations ${playerOne.value} Wins`;
           } else if (
-            gameBoard.checkWinner() === 0 &&
-            gameBoard.getTurn() === 9
+            gameBoard.checkWinner() === 0
+            && gameBoard.getTurn() === 9
           ) {
-            winnerup.innerHTML = `Nobody Wins`;
-          } else {
-            winnerup.innerHTML = `Congratulations player2.name Wins`;
+            container.classList.add('block');
+            winnerup.innerHTML = 'Nobody Wins';
+          } else if (gameBoard.checkWinner() === 2) {
+            container.classList.add('block');
+            winnerup.innerHTML = `Congratulations ${playerTwo.value} Wins`;
           }
+
           render();
         }
       });
     }
-  };
-  const restart = () => {
-    const boardItems = document.querySelectorAll('.item');
-    for (let i = 0; i < boardItems.length; i += 1) {
-      boardItems[i].innerHTML = '';
-      gameBoard.board[i] = '';
-      gameBoard.setTurn
-    }
+    restartButton.addEventListener('click', () => restart());
+    button.addEventListener('click', () => {
+      restart();
+      container.classList.remove('block');
+    });
+    startButton.addEventListener('click', () => {
+      if (playerOne.value !== '' && playerTwo.value !== '') {
+        createInput.classList.add('none');
+        showName();
+        boardContainer.classList.add('block');
+      } else {
+        errorForm.textContent = 'Please Enter the name of both player in order to start the game';
+      }
+    });
   };
 
   return { render, startListeners };
-};
-
-const player = (name) => {
-  return { name };
 };
 
 const game = () => {
