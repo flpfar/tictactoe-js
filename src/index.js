@@ -1,3 +1,5 @@
+import './style.css';
+
 const gameBoard = (() => {
   const board = new Array(9).fill('');
   const chances = [
@@ -14,16 +16,16 @@ const gameBoard = (() => {
   const checkWinner = () => {
     for (let i = 0; i < chances.length; i += 1) {
       if (
-        board[chances[i][0]] === 'X'
-        && board[chances[i][1]] === 'X'
-        && board[chances[i][2]] === 'X'
+        board[chances[i][0]] === 'X' &&
+        board[chances[i][1]] === 'X' &&
+        board[chances[i][2]] === 'X'
       ) {
         return 1;
       }
       if (
-        board[chances[i][0]] === 'O'
-        && board[chances[i][1]] === 'O'
-        && board[chances[i][2]] === 'O'
+        board[chances[i][0]] === 'O' &&
+        board[chances[i][1]] === 'O' &&
+        board[chances[i][2]] === 'O'
       ) {
         return 2;
       }
@@ -71,9 +73,10 @@ const displayController = (gameBoard) => {
   const render = () => {
     for (let i = 0; i < boardItems.length; i += 1) {
       if (gameBoard.board[i] !== '') {
-        boardItems[i].innerHTML = gameBoard.board[i] === 'X'
-          ? '<div class="text-red-500"><i class="fas fa-dog"></i></div>'
-          : '<div class="text-white"><i class="fas fa-cat"></i></div>';
+        boardItems[i].innerHTML =
+          gameBoard.board[i] === 'X'
+            ? '<div class="text-red-500"><i class="fas fa-dog"></i></div>'
+            : '<div class="text-white"><i class="fas fa-cat"></i></div>';
       }
     }
   };
@@ -105,8 +108,8 @@ const displayController = (gameBoard) => {
             container.classList.add('block');
             winnerup.innerHTML = `Congratulations ${playerOne.value} Wins`;
           } else if (
-            gameBoard.checkWinner() === 0
-            && gameBoard.getTurn() === 9
+            gameBoard.checkWinner() === 0 &&
+            gameBoard.getTurn() === 9
           ) {
             container.classList.add('block');
             winnerup.innerHTML = 'Nobody Wins';
@@ -130,7 +133,8 @@ const displayController = (gameBoard) => {
         showName();
         boardContainer.classList.add('block');
       } else {
-        errorForm.textContent = 'Please Enter the name of both player in order to start the game';
+        errorForm.textContent =
+          'Please Enter the name of both player in order to start the game';
       }
     });
   };
