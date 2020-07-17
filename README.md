@@ -20,7 +20,10 @@ Pet Tac Toe is a TicTacToe game with cats and dogs instead of the regular X's an
 ## Setup
 
 - Clone this repository with: `git clone https://github.com/flpfar/tictactoe-js.git`
-- Navigate to the project folder (tictactoe-js) and open the `index.html` with the browser.
+- Navigate to the project folder (tictactoe-js)
+- Run `npm install` and then run `npm run build`
+- Open the file `dist/index.html`
+- If you want to test the functionalities of the logic run `npm test`
 
 ## 👤 Authors
 

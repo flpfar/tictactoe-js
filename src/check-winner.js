@@ -1,5 +1,4 @@
 const checkWinner = (board) => {
-  
   const chances = [
     [0, 4, 8],
     [1, 4, 7],
@@ -12,16 +11,16 @@ const checkWinner = (board) => {
   ];
   for (let i = 0; i < chances.length; i += 1) {
     if (
-      board[chances[i][0]] === 'X' &&
-      board[chances[i][1]] === 'X' &&
-      board[chances[i][2]] === 'X'
+      board[chances[i][0]] === 'X'
+      && board[chances[i][1]] === 'X'
+      && board[chances[i][2]] === 'X'
     ) {
       return 1;
     }
     if (
-      board[chances[i][0]] === 'O' &&
-      board[chances[i][1]] === 'O' &&
-      board[chances[i][2]] === 'O'
+      board[chances[i][0]] === 'O'
+      && board[chances[i][1]] === 'O'
+      && board[chances[i][2]] === 'O'
     ) {
       return 2;
     }
