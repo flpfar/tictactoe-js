@@ -1,35 +1,8 @@
+import './style.css';
+import checkWinner from './check-winner';
+
 const gameBoard = (() => {
   const board = new Array(9).fill('');
-  const chances = [
-    [0, 4, 8],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 3, 6],
-    [2, 4, 6],
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-  ];
-
-  const checkWinner = () => {
-    for (let i = 0; i < chances.length; i += 1) {
-      if (
-        board[chances[i][0]] === 'X'
-        && board[chances[i][1]] === 'X'
-        && board[chances[i][2]] === 'X'
-      ) {
-        return 1;
-      }
-      if (
-        board[chances[i][0]] === 'O'
-        && board[chances[i][1]] === 'O'
-        && board[chances[i][2]] === 'O'
-      ) {
-        return 2;
-      }
-    }
-    return 0;
-  };
 
   let turn = 0;
 
@@ -47,7 +20,7 @@ const gameBoard = (() => {
     board,
     addTurn,
     getTurn,
-    checkWinner,
+
     reset,
   };
 })();
@@ -101,16 +74,16 @@ const displayController = (gameBoard) => {
           }
           gameBoard.addTurn();
 
-          if (gameBoard.checkWinner() === 1) {
+          if (checkWinner(gameBoard.board) === 1) {
             container.classList.add('block');
             winnerup.innerHTML = `Congratulations ${playerOne.value} Wins`;
           } else if (
-            gameBoard.checkWinner() === 0
+            checkWinner(gameBoard.board) === 0
             && gameBoard.getTurn() === 9
           ) {
             container.classList.add('block');
             winnerup.innerHTML = 'Nobody Wins';
-          } else if (gameBoard.checkWinner() === 2) {
+          } else if (checkWinner(gameBoard.board) === 2) {
             container.classList.add('block');
             winnerup.innerHTML = `Congratulations ${playerTwo.value} Wins`;
           }
